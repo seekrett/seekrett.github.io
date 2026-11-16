@@ -1,0 +1,240 @@
+:root {
+  color-scheme: light;
+
+  --pink-50: #fff6fb;
+  --pink-100: #ffe6f2;
+  --pink-200: #ffcde4;
+  --pink-300: #ffa6cf;
+  --pink-400: #ff7eb6;
+  --pink-500: #f2559b;
+  --pink-700: #b8336f;
+
+  --ice-50: #f2fbff;
+  --ice-100: #dcf3ff;
+  --ice-300: #9fdcf7;
+  --lilac-100: #efe7ff;
+  --lilac-300: #c9b3ff;
+
+  --ink: #4b2340;
+  --ink-soft: #85607a;
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-solid: #fffafd;
+  --line: rgba(242, 85, 155, 0.18);
+
+  --r5: #ffc94d; /* 5★ gold */
+  --r5-deep: #e89a1c;
+  --r4: #b48cff; /* 4★ purple */
+  --r4-deep: #7c4ddb;
+  --r3: #7cc4ff; /* 3★ blue */
+  --r3-deep: #3a8fd6;
+
+  --font-display: 'Fredoka', 'Nunito', system-ui, sans-serif;
+  --font-body: 'Nunito', system-ui, sans-serif;
+  --font-hand: 'Caveat', cursive;
+
+  --radius: 22px;
+  --shadow: 0 10px 30px -12px rgba(184, 51, 111, 0.35);
+  --shadow-lg: 0 24px 60px -20px rgba(184, 51, 111, 0.45);
+  --nav-w: 92px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--pink-50) 0%, var(--ice-50) 45%, var(--pink-50) 100%);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  line-height: 1.15;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--pink-700);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid var(--pink-400);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+::selection {
+  background: var(--pink-200);
+}
+
+main {
+  position: relative;
+  padding-left: var(--nav-w);
+}
+
+.section {
+  min-height: 100vh;
+  padding: 110px clamp(16px, 5vw, 72px);
+  max-width: 1200px;
+  margin: 0 auto;
+  scroll-margin-top: 0;
+}
+
+.section-head {
+  margin-bottom: 44px;
+}
+
+.eyebrow {
+  font-family: var(--font-hand);
+  font-size: 1.6rem;
+  color: var(--pink-500);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.section-title {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.section-sub {
+  color: var(--ink-soft);
+  margin-top: 10px;
+  max-width: 560px;
+}
+
+.card {
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.02rem;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--pink-400), var(--pink-500));
+  color: #fff;
+  box-shadow: 0 8px 20px -6px rgba(242, 85, 155, 0.6);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 12px 26px -6px rgba(242, 85, 155, 0.7);
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--pink-700);
+  border: 1.5px solid var(--pink-200);
+}
+
+.btn-ghost:hover {
+  background: #fff;
+}
+
+.chip {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--pink-100);
+  color: var(--pink-700);
+}
+
+.stars {
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+/* Entrance animation for content as it scrolls in */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --nav-w: 0px;
+  }
+  body {
+    font-size: 16px;
+  }
+  .section {
+    padding-top: 80px;
+    padding-bottom: 120px;
+    min-height: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

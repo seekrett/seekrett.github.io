@@ -1,0 +1,122 @@
+.contact {
+  display: flex;
+  flex-direction: column;
+}
+
+.scoreboard {
+  max-width: 640px;
+  border-radius: 24px;
+  background: linear-gradient(170deg, #5b2a4d, #3d1c36);
+  color: #fff;
+  padding: 26px 28px;
+  box-shadow: 0 0 0 5px #fff, 0 0 0 9px var(--pink-200), var(--shadow-lg);
+}
+
+.score-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 0.12em;
+  color: var(--pink-200);
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.2);
+  padding-bottom: 14px;
+}
+
+.score-total strong {
+  font-size: 2.2rem;
+  color: var(--r5);
+  margin-left: 8px;
+  text-shadow: 0 0 14px rgba(255, 201, 77, 0.6);
+}
+
+.score-rows {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.score-rows li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.score-judge {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.score-rows a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  text-decoration: none;
+  padding: 6px 16px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.2s;
+}
+
+.score-rows a:hover {
+  background: var(--pink-500);
+}
+
+.score-icon {
+  font-weight: 800;
+}
+
+.score-rank {
+  font-family: var(--font-hand);
+  font-size: 1.4rem;
+  color: var(--pink-200);
+  margin-top: 8px;
+}
+
+.mini-ice {
+  position: relative;
+  margin-top: 36px;
+  min-height: 160px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fff, var(--ice-100));
+  border: 4px solid var(--ice-300);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  max-width: 640px;
+}
+
+.thrown-gift {
+  position: absolute;
+  top: -50px;
+  font-size: 2rem;
+  animation: gift-land 0.9s cubic-bezier(0.4, 0, 0.6, 1.4) both;
+  pointer-events: none;
+}
+
+@keyframes gift-land {
+  from {
+    transform: translateY(0) rotate(0);
+  }
+  to {
+    transform: translateY(170px) rotate(var(--rot));
+  }
+}
+
+.footer {
+  margin-top: auto;
+  padding-top: 60px;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}

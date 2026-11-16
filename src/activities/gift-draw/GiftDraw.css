@@ -1,0 +1,336 @@
+/* All styles for the gift draw live here and use the site's colour tokens. */
+.gd {
+  display: grid;
+  gap: 22px;
+  min-height: 360px;
+  align-content: start;
+}
+
+.gd-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  gap: 14px;
+  min-height: 220px;
+  padding-top: 40px;
+}
+
+.gd-center {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.gd-count {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+.gd-count strong {
+  color: var(--pink-500);
+  font-size: 1.5rem;
+}
+
+.gd-label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+}
+
+.gd-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.gd-chip {
+  border: 2px solid var(--pink-200);
+  background: #fff;
+  border-radius: 99px;
+  padding: 6px 16px;
+  font-weight: 700;
+  transition: transform 0.15s, background 0.15s;
+}
+
+.gd-chip:hover {
+  transform: translateY(-2px);
+}
+
+.gd-chip.is-on {
+  background: var(--pink-400);
+  border-color: var(--pink-400);
+  color: #fff;
+}
+
+.gd-draw {
+  font-size: 1.15rem;
+  padding: 14px 32px;
+}
+
+.gd .btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* the gift box */
+.gd-box {
+  position: relative;
+  width: 150px;
+  height: 130px;
+  animation: gd-idle 3s ease-in-out infinite;
+}
+
+.gd-body {
+  position: absolute;
+  bottom: 0;
+  left: 8px;
+  right: 8px;
+  height: 92px;
+  border-radius: 10px 10px 16px 16px;
+  background: linear-gradient(160deg, var(--pink-300), var(--pink-500));
+  box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.08), var(--shadow);
+}
+
+.gd-ribbon {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 22px;
+  transform: translateX(-50%);
+  background: var(--ice-100);
+}
+
+.gd-lid {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(160deg, var(--pink-200), var(--pink-400));
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.06);
+  z-index: 2;
+}
+
+.gd-lid::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 22px;
+  transform: translateX(-50%);
+  background: var(--ice-100);
+}
+
+.gd-bow {
+  position: absolute;
+  left: 50%;
+  top: -34px;
+  transform: translateX(-50%);
+  font-size: 2.4rem;
+  z-index: 1;
+}
+
+@keyframes gd-idle {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.gd-box.is-opening {
+  animation: gd-shake 0.9s ease-in-out;
+}
+
+.gd-box.is-opening .gd-lid {
+  animation: gd-lid-off 0.6s 0.9s cubic-bezier(0.3, 1.2, 0.6, 1) forwards;
+}
+
+@keyframes gd-shake {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  15%,
+  55% {
+    transform: rotate(-8deg) translateY(-4px);
+  }
+  35%,
+  75% {
+    transform: rotate(8deg) translateY(-4px);
+  }
+}
+
+@keyframes gd-lid-off {
+  to {
+    transform: translate(90px, -70px) rotate(35deg);
+    opacity: 0;
+  }
+}
+
+/* the name slip */
+.gd-slip {
+  position: absolute;
+  top: 0;
+  z-index: 3;
+  min-width: 220px;
+  padding: 20px 26px;
+  border: 2px dashed var(--pink-300);
+  border-radius: 14px;
+  background: #fffdf6;
+  box-shadow: var(--shadow-lg);
+  display: grid;
+  gap: 4px;
+  animation: gd-slip-up 0.6s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+
+@keyframes gd-slip-up {
+  from {
+    transform: translateY(100px) scale(0.4) rotate(-10deg);
+    opacity: 0;
+  }
+}
+
+.gd-slip-tap {
+  font-family: var(--font-hand);
+  font-size: 1.7rem;
+  color: var(--pink-500);
+  animation: gd-idle 1.4s ease-in-out infinite;
+}
+
+.gd-slip.is-revealed {
+  cursor: default;
+  animation: gd-flip 0.5s ease both;
+}
+
+@keyframes gd-flip {
+  from {
+    transform: rotateX(90deg);
+  }
+}
+
+.gd-slip-label {
+  color: var(--ink-soft);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.gd-slip-name {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--pink-500);
+}
+
+.gd-confetti span {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  color: var(--pink-400);
+  font-size: 1.2rem;
+  animation: gd-pop 1.2s var(--d) ease-out both;
+  pointer-events: none;
+}
+
+.gd-confetti span:nth-child(3n) {
+  color: var(--r5);
+}
+.gd-confetti span:nth-child(3n + 1) {
+  color: var(--ice-300);
+}
+
+@keyframes gd-pop {
+  0% {
+    transform: translate(-50%, 40px) scale(0.3);
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--x)), 170px) rotate(240deg);
+    opacity: 0;
+  }
+}
+
+.gd-hint {
+  color: var(--ink-soft);
+  max-width: 380px;
+}
+
+/* setup */
+.gd-setup {
+  display: grid;
+  gap: 12px;
+  max-width: 440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.gd-setup textarea {
+  font: inherit;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 2px solid var(--pink-200);
+  background: #fff;
+  resize: vertical;
+}
+
+.gd-setup textarea:focus {
+  outline: none;
+  border-color: var(--pink-400);
+}
+
+.gd-check {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.93rem;
+  color: var(--ink-soft);
+}
+
+.gd-check input {
+  accent-color: var(--pink-500);
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+}
+
+.gd-setup .btn {
+  justify-self: center;
+}
+
+/* host options */
+.gd-host {
+  border-top: 2px dashed var(--pink-100);
+  padding-top: 14px;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+.gd-host summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--pink-700);
+}
+
+.gd-host p {
+  margin: 10px 0;
+}
+
+.gd-host-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.gd-host-actions .btn {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+}
