@@ -1,0 +1,16 @@
+.cursor-sparkle {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  color: var(--pink-400);
+  text-shadow: 0 0 6px #fff;
+  transform: translate(-50%, -50%);
+  animation: sparkle-out 0.9s ease-out forwards;
+}
+
+@keyframes sparkle-out {
+  to {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), 18px) scale(0.3) rotate(90deg);
+  }
+}

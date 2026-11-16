@@ -1,0 +1,86 @@
+.pcard {
+  --rc: var(--r3);
+  --rcd: var(--r3-deep);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px 22px 18px;
+  border-radius: var(--radius);
+  background: linear-gradient(165deg, #fff 0%, #fff 55%, color-mix(in srgb, var(--rc) 22%, #fff) 100%);
+  border: 2.5px solid var(--rc);
+  box-shadow: 0 0 0 4px #fff, var(--shadow);
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.3, 1.4, 0.5, 1), box-shadow 0.3s;
+}
+
+.pcard.r4 {
+  --rc: var(--r4);
+  --rcd: var(--r4-deep);
+}
+
+.pcard.r5 {
+  --rc: var(--r5);
+  --rcd: var(--r5-deep);
+}
+
+.pcard:hover {
+  transform: translateY(-6px) rotate(-0.6deg);
+  box-shadow: 0 0 0 4px #fff, 0 0 26px -2px color-mix(in srgb, var(--rc) 70%, transparent), var(--shadow-lg);
+}
+
+.pcard-top {
+  display: flex;
+  justify-content: space-between;
+  color: var(--rcd);
+  font-size: 1.05rem;
+}
+
+/* glossy sweep across the card on hover */
+.pcard-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.85) 50%, transparent 65%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+
+.pcard:hover .pcard-shine {
+  transition: transform 0.9s ease;
+  transform: translateX(120%);
+}
+
+.pcard-title {
+  font-size: 1.35rem;
+}
+
+.pcard-desc {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+.pcard-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pcard-links {
+  display: flex;
+  gap: 16px;
+  margin-top: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.pcard-links a {
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--rcd);
+}
+
+.pcard-links a:hover {
+  text-decoration: underline;
+}
