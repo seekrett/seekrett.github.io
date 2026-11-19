@@ -1,4 +1,5 @@
-import { profile, skills, talents } from '../data/profile'
+import { profile, talents } from '../data/profile'
+import { Inventory } from '../components/Inventory'
 import { useReveal } from '../useReveal'
 import './About.css'
 
@@ -55,21 +56,6 @@ export function About() {
             ))}
           </div>
 
-          <div className="card about-stats reveal">
-            <h3 className="about-h">Skill Levels</h3>
-            <ul className="stat-list">
-              {skills.map((s) => (
-                <li key={s.name}>
-                  <span className="stat-name">{s.name}</span>
-                  <span className="stat-bar">
-                    <span style={{ '--lv': s.level / 90 } as React.CSSProperties} />
-                  </span>
-                  <span className="stat-lv">Lv. {s.level}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
           <div className="card about-talents reveal">
             <h3 className="about-h">Talents</h3>
             <ul>
@@ -83,6 +69,8 @@ export function About() {
           </div>
         </div>
       </div>
+
+      <Inventory />
     </section>
   )
 }

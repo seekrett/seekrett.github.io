@@ -15,7 +15,7 @@ Everything you'd normally want to change lives in `src/data/`:
 
 | File | What it controls |
 | --- | --- |
-| `src/data/profile.ts` | name, bio, typewriter roles, skill levels, talents, contact links |
+| `src/data/profile.ts` | name, bio, typewriter roles, skills inventory (items + "used in"), talents, contact links |
 | `src/data/projects.ts` | the project collection (rarity 5/4/3 = gold/purple/blue cards) |
 | `src/data/writing.ts` | the bookshelf (the three books there now are **samples**, replace them) |
 
