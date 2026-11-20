@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "gift-draw": "node src/activities/gift-draw/generate.mjs"
   },
   "dependencies": {
     "framer-motion": "^14.14.0",

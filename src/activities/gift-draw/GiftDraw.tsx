@@ -1,41 +1,88 @@
 import { useState } from 'react'
-import { cleanNames, useGiftDraw } from './useGiftDraw'
+import draw from './draw.json'
 import './GiftDraw.css'
 
-type Phase = 'box' | 'opening' | 'hidden' | 'revealed'
+// The draw is made ahead of time by `npm run gift-draw` (see generate.mjs).
+// Each person's giftee is locked with their own secret code, so anyone can open
+// this page from any computer and only see their own result.
+
+type Locked = { salt: string; iv: string; data: string }
+const DRAW = draw as { names: string[]; entries: Record<string, Locked> }
+
+type Phase = 'pick' | 'opening' | 'hidden' | 'revealed'
 
 const CONFETTI = ['✦', '♡', '❄', '✧', '🎀']
 
+const fromB64 = (s: string) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0))
+const normalize = (code: string) => code.toUpperCase().replace(/[^A-Z0-9]/g, '')
+
+// Must match lock() in generate.mjs
+async function unlock(code: string, box: Locked): Promise<string | null> {
+  try {
+    const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(normalize(code)), 'PBKDF2', false, [
+      'deriveKey',
+    ])
+    const key = await crypto.subtle.deriveKey(
+      { name: 'PBKDF2', salt: fromB64(box.salt), iterations: 200_000, hash: 'SHA-256' },
+      base,
+      { name: 'AES-GCM', length: 256 },
+      false,
+      ['decrypt'],
+    )
+    const out = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: fromB64(box.iv) }, key, fromB64(box.data))
+    return new TextDecoder().decode(out)
+  } catch {
+    return null // wrong code
+  }
+}
+
+const wait = (ms: number) => new Promise((r) => setTimeout(r, ms))
+
 export default function GiftDraw() {
-  const { state, start, draw, reset, clear } = useGiftDraw()
-  const [phase, setPhase] = useState<Phase>('box')
-  const [drawer, setDrawer] = useState<string | null>(null)
-  const [picked, setPicked] = useState<string | null>(null)
+  const [phase, setPhase] = useState<Phase>('pick')
+  const [me, setMe] = useState<string | null>(null)
+  const [code, setCode] = useState('')
+  const [error, setError] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [giftee, setGiftee] = useState<string | null>(null)
 
-  if (state.names.length === 0) return <Setup onStart={start} />
+  if (DRAW.names.length === 0) {
+    return (
+      <div className="gd">
+        <div className="gd-stage">
+          <GiftBox />
+          <p className="gd-count">The box isn't ready yet. Check back once the host has added everyone's names!</p>
+        </div>
+      </div>
+    )
+  }
 
-  const waiting = state.names.filter((n) => !state.drawn.includes(n))
-  const finished = state.pool.length === 0
-  const needsDrawer = state.noSelf
-  const canDraw = !finished && (!needsDrawer || drawer !== null)
-  const anyDrawn = state.pool.length < state.names.length
-
-  const openBox = () => {
-    if (!canDraw) return
-    const name = draw(drawer)
-    if (!name) return
-    setPicked(name)
+  const open = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!me || busy) return
+    setBusy(true)
+    setError('')
+    const result = await unlock(code, DRAW.entries[me])
+    if (!result) {
+      setBusy(false)
+      setError("That code doesn't match. Check the code the host sent you.")
+      return
+    }
+    setGiftee(result)
     setPhase('opening')
-    setTimeout(() => setPhase('hidden'), 1500)
+    await wait(1500)
+    setPhase('hidden')
+    setBusy(false)
   }
 
-  const passOn = () => {
-    setPicked(null)
-    setDrawer(null)
-    setPhase('box')
+  const done = () => {
+    setGiftee(null)
+    setCode('')
+    setMe(null)
+    setPhase('pick')
   }
 
-  if (phase !== 'box' && picked) {
+  if (phase !== 'pick' && giftee) {
     return (
       <div className="gd">
         <div className={`gd-stage is-${phase}`}>
@@ -48,8 +95,8 @@ export default function GiftDraw() {
             >
               {phase === 'revealed' ? (
                 <>
-                  <span className="gd-slip-label">{drawer ? `${drawer}, you're gifting` : "You're gifting"}</span>
-                  <span className="gd-slip-name">{picked}</span>
+                  <span className="gd-slip-label">{me}, you're gifting</span>
+                  <span className="gd-slip-name">{giftee}</span>
                 </>
               ) : (
                 <span className="gd-slip-tap">tap to reveal 🤫</span>
@@ -61,12 +108,7 @@ export default function GiftDraw() {
               {Array.from({ length: 18 }, (_, i) => (
                 <span
                   key={i}
-                  style={
-                    {
-                      '--x': `${(i / 17 - 0.5) * 340}px`,
-                      '--d': `${(i % 5) * 0.06}s`,
-                    } as React.CSSProperties
-                  }
+                  style={{ '--x': `${(i / 17 - 0.5) * 340}px`, '--d': `${(i % 5) * 0.06}s` } as React.CSSProperties}
                 >
                   {CONFETTI[i % CONFETTI.length]}
                 </span>
@@ -76,9 +118,9 @@ export default function GiftDraw() {
         </div>
         {phase === 'revealed' && (
           <div className="gd-center">
-            <p className="gd-hint">Remember it, keep it secret, then hide it before passing the device on!</p>
-            <button className="btn btn-primary" onClick={passOn}>
-              Got it, hide &amp; pass it on
+            <p className="gd-hint">Keep it secret! You can come back with your code any time if you forget.</p>
+            <button className="btn btn-primary" onClick={done}>
+              Got it, close the box
             </button>
           </div>
         )}
@@ -91,103 +133,56 @@ export default function GiftDraw() {
       <div className="gd-stage">
         <GiftBox />
         <p className="gd-count">
-          {finished ? (
-            <>Everyone has a giftee! Happy gifting 🎁</>
-          ) : (
-            <>
-              <strong>{state.pool.length}</strong> {state.pool.length === 1 ? 'name' : 'names'} left in the box
-            </>
-          )}
+          <strong>{DRAW.names.length}</strong> names are in the box
         </p>
       </div>
 
-      {!finished && needsDrawer && (
-        <div className="gd-center">
-          <p className="gd-label">Who's drawing?</p>
-          <div className="gd-chips" role="radiogroup" aria-label="Who is drawing">
-            {waiting.map((n) => (
-              <button
-                key={n}
-                role="radio"
-                aria-checked={drawer === n}
-                className={`gd-chip${drawer === n ? ' is-on' : ''}`}
-                onClick={() => setDrawer(n)}
-              >
-                {n}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {!finished && (
-        <div className="gd-center">
-          <button className="btn btn-primary gd-draw" onClick={openBox} disabled={!canDraw}>
-            🎁 Open the box
-          </button>
-        </div>
-      )}
-
-      <details className="gd-host">
-        <summary>Host options</summary>
-        <p>
-          {state.names.length} people · {state.noSelf ? "can't draw themselves" : 'anyone can draw any name'} · progress is
-          saved in this browser, so do all the draws on this device.
-        </p>
-        <div className="gd-host-actions">
-          {!anyDrawn ? (
-            <button className="btn btn-ghost" onClick={clear}>
-              Edit names
-            </button>
-          ) : (
+      <div className="gd-center">
+        <p className="gd-label">Who are you?</p>
+        <div className="gd-chips" role="radiogroup" aria-label="Who are you">
+          {DRAW.names.map((n) => (
             <button
-              className="btn btn-ghost"
-              onClick={() => confirm('Put every name back in the box and start the draw over?') && reset()}
+              key={n}
+              role="radio"
+              aria-checked={me === n}
+              className={`gd-chip${me === n ? ' is-on' : ''}`}
+              onClick={() => {
+                setMe(n)
+                setError('')
+              }}
             >
-              Restart draw
+              {n}
             </button>
-          )}
-          <button
-            className="btn btn-ghost"
-            onClick={() => confirm('Delete all names and the draw? This cannot be undone.') && clear()}
-          >
-            Clear everything
-          </button>
+          ))}
         </div>
-      </details>
-    </div>
-  )
-}
+      </div>
 
-function Setup({ onStart }: { onStart: (names: string[], noSelf: boolean) => void }) {
-  const [text, setText] = useState('')
-  const [noSelf, setNoSelf] = useState(true)
-  const names = cleanNames(text)
-  const min = 2
-  return (
-    <div className="gd">
-      <div className="gd-stage">
-        <GiftBox />
-      </div>
-      <div className="gd-setup">
-        <label className="gd-label" htmlFor="gd-names">
-          Who's in the gift exchange?
-        </label>
-        <textarea
-          id="gd-names"
-          rows={6}
-          placeholder={'One name per line\nAiko\nBea\nCass'}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-        <label className="gd-check">
-          <input type="checkbox" checked={noSelf} onChange={(e) => setNoSelf(e.target.checked)} />
-          People can't draw their own name (everyone picks who they are before drawing)
-        </label>
-        <button className="btn btn-primary" disabled={names.length < min} onClick={() => onStart(names, noSelf)}>
-          Put {names.length || ''} {names.length === 1 ? 'name' : 'names'} in the box ✦
-        </button>
-      </div>
+      {me && (
+        <form className="gd-center gd-code" onSubmit={open}>
+          <label className="gd-label" htmlFor="gd-code">
+            Your secret code
+          </label>
+          <input
+            id="gd-code"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder="XXXX-XXXX"
+            autoComplete="off"
+            autoCapitalize="characters"
+            spellCheck={false}
+            aria-invalid={!!error}
+            aria-describedby={error ? 'gd-error' : undefined}
+          />
+          {error && (
+            <p className="gd-error" id="gd-error" role="alert">
+              {error}
+            </p>
+          )}
+          <button className="btn btn-primary gd-draw" type="submit" disabled={busy || normalize(code).length < 8}>
+            🎁 {busy ? 'Opening…' : 'Open the box'}
+          </button>
+        </form>
+      )}
     </div>
   )
 }
