@@ -2,8 +2,7 @@
 # Lines starting with # are ignored. Names must be unique.
 #
 # When the list is final, run:   npm run gift-draw
-Daddy
-Mommy
-Red
-Z
-Katra
+Jinky
+Amo
+Khalil
+Lisa

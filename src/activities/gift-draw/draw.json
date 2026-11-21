@@ -1,36 +1,30 @@
 {
   "names": [
-    "Daddy",
-    "Mommy",
-    "Red",
-    "Z",
-    "Katra"
+    "Jinky",
+    "Amo",
+    "Khalil",
+    "Lisa"
   ],
   "entries": {
-    "Daddy": {
-      "salt": "GRkj2sHXIPDbY8CCFyPhtQ==",
-      "iv": "/1XfN/KgMpGzjzCI",
-      "data": "0du/NrbA1YJlsTsGOY8+4RowEQ=="
+    "Jinky": {
+      "salt": "a9+ZnQYdOjz7HMTbAcpoDQ==",
+      "iv": "VKZ3yaFyBUOljDo9",
+      "data": "tL1jauMNMWcLJo7Q7UI1aK+l/zc="
     },
-    "Mommy": {
-      "salt": "5T/7UEj8iKu6jlFtjY+/sg==",
-      "iv": "PaeHZDpE+OlCOxaN",
-      "data": "TfnYUVEU4Vpub2iIQVEANIbXaQyl"
+    "Amo": {
+      "salt": "zcKQpH03/mPuOawISn5VNA==",
+      "iv": "2hoQuUSEOiuFhfpc",
+      "data": "CqX4qQVPun2TyqxYBdkJxS9//lF5Zg=="
     },
-    "Red": {
-      "salt": "QHPwdasK++ApZoy9IBQvUQ==",
-      "iv": "qCwEdrqfwFss5eVv",
-      "data": "3xF/AIYAiB2wRiBwUNkIrk3vuNyY"
+    "Khalil": {
+      "salt": "0sCn+8LroU0ihPk5SqCSFA==",
+      "iv": "qe+Ept6YhztpmkGy",
+      "data": "+5dUztpHeKqUViWcX5rIVXnwpOAO"
     },
-    "Z": {
-      "salt": "HaIk5DUvJqCe9lIe38kWdw==",
-      "iv": "p9mLfCRzw8/+aOv9",
-      "data": "2tQ6unIFjaOgkRnVk4RZdEYB0H37"
-    },
-    "Katra": {
-      "salt": "j12sXFZ4n1547DyBuWShyQ==",
-      "iv": "s8aKqnllDxcBms2U",
-      "data": "1Js6UrktZn2qStzuXzRx/7U="
+    "Lisa": {
+      "salt": "tFPCcZ7VMKlVaNntH1g3Wg==",
+      "iv": "sXvVFp5DoAEckZYP",
+      "data": "52Bd2hAMo71mLwMhe3e2N3VQhA=="
     }
   }
 }
