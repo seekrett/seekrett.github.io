@@ -1,0 +1,30 @@
+{
+  "names": [
+    "Jinky",
+    "Amo",
+    "Khalil",
+    "Lisa"
+  ],
+  "entries": {
+    "Jinky": {
+      "salt": "a9+ZnQYdOjz7HMTbAcpoDQ==",
+      "iv": "VKZ3yaFyBUOljDo9",
+      "data": "tL1jauMNMWcLJo7Q7UI1aK+l/zc="
+    },
+    "Amo": {
+      "salt": "zcKQpH03/mPuOawISn5VNA==",
+      "iv": "2hoQuUSEOiuFhfpc",
+      "data": "CqX4qQVPun2TyqxYBdkJxS9//lF5Zg=="
+    },
+    "Khalil": {
+      "salt": "0sCn+8LroU0ihPk5SqCSFA==",
+      "iv": "qe+Ept6YhztpmkGy",
+      "data": "+5dUztpHeKqUViWcX5rIVXnwpOAO"
+    },
+    "Lisa": {
+      "salt": "tFPCcZ7VMKlVaNntH1g3Wg==",
+      "iv": "sXvVFp5DoAEckZYP",
+      "data": "52Bd2hAMo71mLwMhe3e2N3VQhA=="
+    }
+  }
+}

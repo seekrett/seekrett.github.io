@@ -20,7 +20,7 @@ export const activities: Activity[] = [
   {
     id: 'gift-draw',
     title: 'Gift Exchange Draw',
-    blurb: 'Pick a name out of the box for our gift exchange. Every name can only be drawn once!',
+    blurb: 'Pick your name, enter the secret code the host sent you, and find out who you are gifting. Shh!',
     emoji: '🎁',
     ends: 'Limited holiday event',
     Component: lazy(() => import('./gift-draw/GiftDraw')),

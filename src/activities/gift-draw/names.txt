@@ -1,0 +1,8 @@
+# Gift exchange participants: one name per line.
+# Lines starting with # are ignored. Names must be unique.
+#
+# When the list is final, run:   npm run gift-draw
+Jinky
+Amo
+Khalil
+Lisa
