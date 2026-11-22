@@ -2,7 +2,19 @@
 # Lines starting with # are ignored. Names must be unique.
 #
 # When the list is final, run:   npm run gift-draw
-Jinky
-Amo
-Khalil
-Lisa
+Spongebob
+Blippi
+Rumi
+Woody
+Spiderman
+Jinx
+Po
+Robin Hood 
+Kirby 
+Tom
+Barbie
+Gabby Dollhouse
+Pocoyo
+Cookie monster
+Rapunzel
+Sokha
